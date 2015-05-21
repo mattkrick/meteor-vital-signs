@@ -10,3 +10,7 @@ insecure
 d3js:d3
 stylus
 momentjs:moment
+meteorhacks:npm
+
+
+npm-container
