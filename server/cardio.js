@@ -39,6 +39,12 @@
 ////window.RealTimeData = RealTimeData;
 //
 //meteor
+Meteor.setInterval(function() {
+  Points.insert({
+    time: new Date(),
+    y:Math.floor(Math.random() * 60)+40
+  });
+},1000);
 
 Meteor.methods({
   'startNet': function (port) {
