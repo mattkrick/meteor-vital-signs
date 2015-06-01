@@ -1,1 +1,1 @@
-Points = new Mongo.Collection('points');
+Cardio = new Mongo.Collection('cardio');

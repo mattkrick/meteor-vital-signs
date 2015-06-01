@@ -3,9 +3,15 @@
 </head>
 
 <body>
-  {{>lineChart}}
+  {{>vitalSigns}}
 </body>
 
-<template name="lineChart">
+<template name="vitalSigns">
+  {{>cardioGraph}}
+  <br>
+</template>
+
+
+<template name="cardioGraph">
   <div id="myChart" style="width: 800px; height: 200px"></div>
 </template>
