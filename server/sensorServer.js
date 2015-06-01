@@ -1,16 +1,23 @@
 "use strict";
 
 Meteor.startup(function () {
-  var net = Meteor.npmRequire('net');
-  net.createServer(function (socket) {
-    console.log("connected");
-
-    socket.on('data', function (data) {
-      var myData = getValues(data);
-      Cardio.insert(myData);
-    });
-  }).listen(8124);
+  startNetServer();
 });
+
+var startNetServer = function() {
+  var net = Meteor.npmRequire('net');
+  //var createServerSync = Meteor.wrapAsync(net.createServer, net);
+
+  net.createServer(Meteor.bindEnvironment(function (socket) {
+    console.log("connected");
+    socket.on('data', Meteor.bindEnvironment( function (data) {
+      //var myData = getValues(data);
+      var myData = makeFakeData();
+      Cardio.insert(myData);
+      console.log(data.toString());
+    }));
+  })).listen(8124);
+};
 
 function getValues(data) {
   var myData = {
@@ -57,6 +64,24 @@ function getValues(data) {
           break;
       }
     }
+  }
+  return myData;
+}
+
+function makeFakeData() {
+  var myData = {
+    time: new Date(),
+    temperature: 0,
+    pressure: 0,
+    flowRate: 0,
+    etCO2: 0,
+    inspiredCO2: 0,
+    breathePerMinute: 0,
+    reserved: 0,
+    CO2curve: [] //50 every 2 seconds
+  };
+  for (var i = 0; i < 50; i++) {
+    myData.CO2curve.push(Math.floor(Math.random() * 60 + 60));
   }
   return myData;
 }
